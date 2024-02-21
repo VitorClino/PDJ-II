@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Movimento : MonoBehaviour
 {
-    //public GameObject player, coin, obstaculo;
 
     private float[] lanes = new float[3] { -3.75f, 0f , 3.75f };
 
     private int _currentLane = 0;
-    private int vida = 1;
+    private float vida = 3;
+    private int moeda = 0;
 
     void Update()
     {
@@ -17,11 +17,12 @@ public class Movimento : MonoBehaviour
         {
             MoverEsquerda();
         }
-        if(Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             MoverDireita();
         }
     }
+
     public void MoverEsquerda()
     {
         _currentLane--;
@@ -41,5 +42,20 @@ public class Movimento : MonoBehaviour
         }
         float x = lanes[_currentLane];
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
+    }
+    void OnTriggerEnter(Collider objetoColidido)
+    {
+        if (objetoColidido.CompareTag("Enemy"))
+        {
+            vida--;
+            Debug.Log(vida);
+        }
+                
+        if (objetoColidido.CompareTag("Coin"))
+        {
+            moeda++;
+            Debug.Log(moeda);
+        }
+        Destroy(objetoColidido.gameObject);
     }
 }
